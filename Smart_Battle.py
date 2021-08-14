@@ -5,11 +5,10 @@ Created on Fri Mar  6 13:08:08 2020
 @author: McLaren
 """
 
-import time
 import sys
-import random
-sys.path.append(r'F:\FGO_Project')  
-import Base_func
+
+sys.path.append(r'F:\FGO_Project')
+from Obsolete import Base_func
 import cv2 as cv
 
 #TreasureDeviceStartXPosition = 286
