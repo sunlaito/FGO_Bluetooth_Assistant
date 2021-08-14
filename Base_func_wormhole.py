@@ -5,40 +5,36 @@ Created on Wed Dec 11 19:50:04 2019
 @author: McLaren
 """
 
-import sys
+# import sys
 # sys.path.append(r'D:\Software\FGO_Project')
 
 import cv2 as cv
 import numpy as np
-import win32api
+# import win32api
 import win32con
 import win32gui
 import win32ui
 
 from Notice import sent_message_fake as sent_message
-
-# phone = "iPhone12"
-phone = "iPadA3"
-
-config = {"iPhone6": {"name": "Wormhole(Cai’s iPhone)", "length": 1122, "bias": 0},
-          "iPhone12": {"name": "Wormhole(Cai的iPhone)", "length": 1357, "bias": 117},
-          "iPadA3": {"name": "Wormhole(sipad)", "length": 12, "bias": 0}}
-# "length": width of the wormhole window for the device
-
-global_position = win32api.GetSystemMetrics(win32con.SM_CXSCREEN) - (config[phone]["length"] - config[phone]["bias"] - 21)
+from config import device_config as config
+from config import cur_device
 
 
-def init_wormhole(phone: str = "iPadA3"):
-    hwnd = win32gui.FindWindow("Qt5QWindowIcon", config[phone]["name"])  # 窗口
-    # win32gui.SetWindowPos(hWnd, InsertAfter, X, Y, cx, cy, Flags)
-    win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, global_position, 0, config[phone]["length"], 649, 0)
+def init_wormhole(device: str = "iPadA3"):
+    hwnd = win32gui.FindWindow("Qt5QWindowIcon", config[device]["name"])  # 窗口
+    left, top, right, bot = win32gui.GetWindowRect(hwnd)
+    width = right - left
+    height = bot - top
+
     # put the wormhole window at the right side of the screen
-    # win32con.HWND_TOPMOST: put the window at the top
+    win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, 0, 0, width, height, 0)
+    # win32gui.SetWindowPos(hWnd, InsertAfter, X, Y, cx, cy, Flags)
+    # win32con.HWND_TOPMOST: put the window over other windows
 
 
 class Fuse:
     def __init__(self):
-        init_wormhole(phone)
+        init_wormhole(cur_device)
         self.value = 0
         self.tolerant_time = 50  # 截取50张图片后仍未发现对应目标则报错
         # 防止程序死在死循环里
@@ -90,13 +86,14 @@ def match_template(filename, show_switch=False, err=0.85):
 
 
 def window_capture():
-    hwnd = win32gui.FindWindow("Qt5QWindowIcon", config[phone]["name"])  # 窗口
-    # 根据窗口句柄获取窗口的设备上下文DC（Divice Context）
-    hwndDC = win32gui.GetWindowDC(hwnd)
+    hwnd = win32gui.FindWindow("Qt5QWindowIcon", config[cur_device]["name"])  # 窗口
     # 获取句柄窗口的大小信息
     left, top, right, bot = win32gui.GetWindowRect(hwnd)
     width = right - left
     height = bot - top
+
+    # 根据窗口句柄获取窗口的设备上下文DC（Divice Context）
+    hwndDC = win32gui.GetWindowDC(hwnd)
     # 根据窗口的DC获取mfcDC
     mfcDC = win32ui.CreateDCFromHandle(hwndDC)
     # mfcDC创建可兼容的DC
@@ -117,11 +114,14 @@ def window_capture():
     img.shape = (height, width, 4)
     img = cv.cvtColor(img, cv.COLOR_RGBA2RGB)
 
-    # img = cv.imread(filename)
     # 截取出ios屏幕区域
-    cropped = img[16:height - 26, (21 + config[phone]["bias"]):width - (21 + config[phone]["bias"])]
+    y0 = config[cur_device]["top_bias"]
+    y1 = height - config[cur_device]["bottom_bias"]
+    x0 = config[cur_device]["left_bias"]
+    x1 = width - config[cur_device]["right_bias"]
+    cropped = img[y0:y1, x0:x1]
     # 裁剪坐标为[y0:y1, x0:x1]
-    # cv.imwrite('D:/Software/FGO_Project/Template/1.jpg', cropped)
+    # cv.imwrite('./Template/cropped_test.jpg', cropped)
     win32gui.DeleteObject(saveBitMap.GetHandle())  # 释放内存
     saveDC.DeleteDC()
     mfcDC.DeleteDC()

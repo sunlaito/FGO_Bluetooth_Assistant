@@ -6,18 +6,15 @@ Created on Sun May 16 12:32:19 2021
 """
 
 import time
-
-# import sys
-# sys.path.append(r'D:\Software\FGO_Project')
 import win32api
 import win32con
 
 import Base_func_wormhole as Base_func
+from config import device_config as config
+from config import cur_device
 
-xy_zero = (Base_func.global_position + 21 + Base_func.config[Base_func.phone]["bias"], 0 + 16)
+xy_zero = (config[cur_device]["left_bias"], config[cur_device]["top_bias"])
 
-
-# 投屏界面的像素位置(1080,607)
 
 def port_open(port_no):
     pass
