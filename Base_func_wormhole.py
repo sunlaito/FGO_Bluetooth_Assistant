@@ -22,11 +22,13 @@ from config import cur_device
 
 def init_wormhole(device: str = "iPadA3"):
     hwnd = win32gui.FindWindow("Qt5QWindowIcon", config[device]["name"])  # 窗口
-    left, top, right, bot = win32gui.GetWindowRect(hwnd)
-    width = right - left
-    height = bot - top
+    # left, top, right, bot = win32gui.GetWindowRect(hwnd)
+    # width = right - left
+    # height = bot - top
 
     # put the wormhole window at the right side of the screen
+    width = config[device]["wh_win"][0]
+    height = config[device]["wh_win"][1]
     win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, 0, 0, width, height, 0)
     # win32gui.SetWindowPos(hWnd, InsertAfter, X, Y, cx, cy, Flags)
     # win32con.HWND_TOPMOST: put the window over other windows
@@ -53,7 +55,7 @@ class Fuse:
 fuse = Fuse()
 
 
-def match_template(filename, show_switch=False, err=0.85):
+def match_template(filename, show_switch=True, err=0.85):
     fuse.increase()
     temppath = './Template/' + filename + '.jpg'
     img = window_capture()
@@ -72,9 +74,10 @@ def match_template(filename, show_switch=False, err=0.85):
             cv.circle(img, player_spot, 10, (0, 255, 255), -1)
             cv.rectangle(img, max_loc, corner_loc, (0, 0, 255), 3)
             cv.namedWindow('FGO_MatchResult', cv.WINDOW_KEEPRATIO)
+            cv.moveWindow('FGO_MatchResult', 1200, 0)
             cv.imshow("FGO_MatchResult", img)
             # 显示结果2秒钟
-            k = cv.waitKey(1000)
+            k = cv.waitKey(2000)
             if k == -1:
                 cv.destroyAllWindows()
 
@@ -115,10 +118,10 @@ def window_capture():
     img = cv.cvtColor(img, cv.COLOR_RGBA2RGB)
 
     # 截取出ios屏幕区域
-    y0 = config[cur_device]["top_bias"]
-    y1 = height - config[cur_device]["bottom_bias"]
-    x0 = config[cur_device]["left_bias"]
-    x1 = width - config[cur_device]["right_bias"]
+    y0 = config[cur_device]["bias"][0]
+    y1 = height - config[cur_device]["bias"][1]
+    x0 = config[cur_device]["bias"][2]
+    x1 = width - config[cur_device]["bias"][3]
     cropped = img[y0:y1, x0:x1]
     # 裁剪坐标为[y0:y1, x0:x1]
     # cv.imwrite('./Template/cropped_test.jpg', cropped)
