@@ -56,4 +56,9 @@ def Template(*args):
             Serial.touch(920, 266)
             # 写三技能要点的位置，可加参数
 
+        # 如果技能需要指定目标
+        if len(args) == 2:
+            Position = (280 + (args[1] - 1) * 250, 350)  # 充能10%，技能选人
+            Serial.touch(Position[0], Position[1])
+
     Hanlder(*args)

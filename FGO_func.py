@@ -16,9 +16,9 @@ import Serial_wormhole as Serial
 import Base_func_wormhole as Base_func
 
 import Mystic_Codes
+import Battle_templates
 
-# from Notice import sent_message
-from Notice import sent_message_fake as sent_message
+from Notice import sent_message
 
 
 class state:
@@ -112,6 +112,14 @@ def apple_feed():
 def find_friend(servant):
     Current_state.WaitForFriendShowReady()
 
+    if servant == "ALL":
+        print(' Just pick the first one')
+        Serial.touch(500, 240)
+        time.sleep(1.5)
+        Serial.touch(1005, 570)
+        print(' Start battle button pressed')
+        return
+
     Flag, Position = Base_func.match_template(servant + '_skill_level', False, 0.9)
     time_limit_flag = 1
     # 找310CBA直到找到为止
@@ -162,7 +170,7 @@ def budao():
 
 
 def quit_battle():
-    global num_Craft
+
     time.sleep(15)
     while True:
         time.sleep(1)
@@ -175,15 +183,17 @@ def quit_battle():
     Flag, Position = Base_func.match_template('Attack_button')
     if Flag:
         print(' 翻车，进入补刀程序')  # 翻车检测
-        # Serial.mouse_set_zero()
-        # sent_message(text='【FGO】: Encounter a battle error.')
         budao()
     print(' Battle finished')
     time.sleep(1)
-    Flag, Position = Base_func.match_template('Rainbow_box')  # 检测是否掉礼装，若掉落则短信提醒
-    if Flag:
-        sent_message()
-        num_Craft += 1
+
+    # # 礼装掉落检测
+    # global num_Craft
+    # Flag, Position = Base_func.match_template('Rainbow_box')  # 检测是否掉礼装，若掉落则短信提醒
+    # if Flag:
+    #     sent_message("掉落礼装!")
+    #     num_Craft += 1
+
     Serial.touch(986, 565, 6)
     Serial.touch(235, 525, 2)  # 拒绝好友申请
     Serial.mouse_set_zero()  # 鼠标复位,防止误差累积
@@ -193,6 +203,7 @@ def quit_battle():
 
 def Master_skill(func=Mystic_Codes.Chaldea_Combat_Uniform, *args):
     Serial.touch(1010, 266)  # 御主技能按键
+    time.sleep(1)
     func(*args)
     time.sleep(1)
     Current_state.WaitForBattleStart()
@@ -221,45 +232,13 @@ def card(TreasureDevice_no=1):
     print(' Card has pressed')
 
 
-def battle():
-    # 判断是否进入战斗界面
-    # Serial.mouse_set_zero()         #鼠标复位,防止误差累积
-    time.sleep(8)  # 等待战斗开始
-    Current_state.WaitForBattleStart()
-    # time.sleep(6)                   #等待6秒，因为礼装效果掉落暴击星会耗时
-
-    # 伯爵+CBA+CBA
-    # Turn1
-    character_skill(3, 1, 1)
-    character_skill(2, 1, 1)
-    character_skill(1, 2)
-    card()
-
-    # Serial.mouse_set_zero()         #鼠标复位,防止误差累积
-    time.sleep(10)  # 等待战斗动画播放完成
-    Current_state.WaitForBattleStart()
-    # Turn2
-    character_skill(3, 3, 1)
-    card()
-
-    # Serial.mouse_set_zero()         #鼠标复位,防止误差累积
-    time.sleep(10)  # 等待战斗动画播放完成
-    Current_state.WaitForBattleStart()
-    # Turn3
-    character_skill(2, 3, 1)
-    character_skill(3, 2)
-    character_skill(2, 2)
-    character_skill(1, 1)
-    card()
-
-
-def FGO_process(times=1, servant='CBA'):
+def FGO_process(times, servant, Battle_func):
     for i in tqdm(range(times)):
         times -= 1
         enter_battle()
         apple_feed()
         find_friend(servant)
-        battle()
+        Battle_func()
         quit_battle()
         print(' ')
         print(' {}times of battles remain.'.format(times))
@@ -268,13 +247,14 @@ def FGO_process(times=1, servant='CBA'):
                                                                                            num_Craft))
 
 
-def main(port_no, times=1, servant='CBA'):
+def main(port_no, times, servant, battle_func):
     Serial.port_open(port_no)  # 写入通讯的串口号
     Serial.mouse_set_zero()
-    FGO_process(times, servant)
+    FGO_process(times, servant, battle_func)
     Serial.port_close()
     print(' All done!')
 
 
 if __name__ == '__main__':
-    main('com5', 40)
+    main('com5', 1, "ALL", Battle_templates.qp)
+    sent_message("脚本完成!", 1)

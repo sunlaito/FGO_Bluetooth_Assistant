@@ -11,3 +11,5 @@ cur_device = "iPadA3"
 
 # config = {"iPhone6": {"name": "Wormhole(Cai’s iPhone)", "length": 1122, "bias": 0},
 #           "iPhone12": {"name": "Wormhole(Cai的iPhone)", "length": 1357, "bias": 117}}
+
+debug_flag = False

@@ -5,7 +5,6 @@ Created on Fri Jan 17 10:08:29 2020
 @author: McLaren
 """
 
-
 # from twilio.rest import Client
 #
 # #STEP1: 去twilio.com注册账户获取token,sid. 详见：https://blog.csdn.net/qq_31801903/article/details/81060448
@@ -24,5 +23,14 @@ Created on Fri Jan 17 10:08:29 2020
 #     )
 #     print(" Message send OK")
 
-def sent_message_fake(text):
+import winsound
+
+
+def sent_message(text, sound_flag=False):
     print(text)
+
+    if sound_flag:
+        if sound_flag == 1:  # success notice
+            winsound.PlaySound(r".\Notice_sound\success.wav", winsound.SND_FILENAME)
+        elif sound_flag == -1:  # error notice
+            winsound.PlaySound(r".\Notice_sound\error.wav", winsound.SND_FILENAME)

@@ -15,9 +15,9 @@ import win32con
 import win32gui
 import win32ui
 
-from Notice import sent_message_fake as sent_message
+from Notice import sent_message
 from config import device_config as config
-from config import cur_device
+from config import cur_device, debug_flag
 
 
 def init_wormhole(device: str = "iPadA3"):
@@ -49,13 +49,13 @@ class Fuse:
 
     def alarm(self):
         if self.value == self.tolerant_time:
-            sent_message(text='【FGO】: Encounter a fuse error.')
+            sent_message(text='【FGO】: Encounter a fuse error.', sound_flag=-1)
 
 
 fuse = Fuse()
 
 
-def match_template(filename, show_switch=True, err=0.85):
+def match_template(filename, show_switch=debug_flag, err=0.85):
     fuse.increase()
     temppath = './Template/' + filename + '.jpg'
     img = window_capture()
