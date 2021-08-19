@@ -256,5 +256,5 @@ def main(port_no, times, servant, battle_func):
 
 
 if __name__ == '__main__':
-    main('com5', 40, "CBA", Battle_templates.WCBA_normal)
+    main('com5', 40, "ALL", Battle_templates.GoldenEgg)
     sent_message("脚本完成!", 1)
