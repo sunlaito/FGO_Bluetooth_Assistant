@@ -89,18 +89,26 @@ def apple_feed():
             Serial.touch(709, Position[1])
             time.sleep(1.5)
             Flag, Position = Base_func.match_template('Feedapple_decide')
-            Serial.touch(Position[0], Position[1])
-            num_SilverApple_used += 1
-            print(' Feed silver apple success')
+            if Flag:
+                Serial.touch(Position[0], Position[1])
+                num_SilverApple_used += 1
+                print(' Feed silver apple success')
+            else:
+                sent_message(" Feed silver apple error", -1)
+                time.sleep(60)
         else:
             Flag, Position = Base_func.match_template('Gold_apple')
             if Flag:
                 Serial.touch(709, Position[1])
                 time.sleep(1.5)
                 Flag, Position = Base_func.match_template('Feedapple_decide')
-                Serial.touch(Position[0], Position[1])
-                num_GoldApple_used += 1
-                print(' Feed gold apple success')
+                if Flag:
+                    Serial.touch(Position[0], Position[1])
+                    num_GoldApple_used += 1
+                    print(' Feed gold apple success')
+                else:
+                    sent_message(" Feed gold apple error", -1)
+                    time.sleep(60)
             else:
                 print(' No apple remain')
                 Serial.touch(0, 0)
@@ -170,7 +178,6 @@ def budao():
 
 
 def quit_battle():
-
     time.sleep(15)
     while True:
         time.sleep(1)
@@ -256,5 +263,5 @@ def main(port_no, times, servant, battle_func):
 
 
 if __name__ == '__main__':
-    main('com5', 40, "ALL", Battle_templates.GoldenEgg)
+    main('com5', 50, "ALL", Battle_templates.QP)
     sent_message("脚本完成!", 1)

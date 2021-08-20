@@ -145,8 +145,10 @@ def GoldenEgg():
     time.sleep(10)  # 等待战斗动画播放完成
     Current_state.WaitForBattleStart()
     # Turn3
+
+    character_skill(2, 2)
+    time.sleep(1)
+    character_skill(2, 1)
     character_skill(3, 1)
     character_skill(3, 3, 2)
-    character_skill(2, 1)
-    character_skill(2, 2)
     card(2)
