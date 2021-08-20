@@ -13,7 +13,7 @@ import Base_func_wormhole as Base_func
 from config import device_config as config
 from config import cur_device
 
-xy_zero = (config[cur_device]["bias"][2], config[cur_device]["bias"][0])
+xy_zero = (config[cur_device]["bias"][2], config[cur_device]["bias"][0])  # (21, 214)
 
 
 def port_open(port_no):

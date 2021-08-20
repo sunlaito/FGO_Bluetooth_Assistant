@@ -24,6 +24,7 @@ Created on Fri Jan 17 10:08:29 2020
 #     print(" Message send OK")
 
 import winsound
+import time
 
 
 def sent_message(text, sound_flag=False):
@@ -34,3 +35,4 @@ def sent_message(text, sound_flag=False):
             winsound.PlaySound(r".\Notice_sound\success.wav", winsound.SND_FILENAME)
         elif sound_flag == -1:  # error notice
             winsound.PlaySound(r".\Notice_sound\error.wav", winsound.SND_FILENAME)
+            time.sleep(60)

@@ -95,7 +95,6 @@ def apple_feed():
                 print(' Feed silver apple success')
             else:
                 sent_message(" Feed silver apple error", -1)
-                time.sleep(60)
         else:
             Flag, Position = Base_func.match_template('Gold_apple')
             if Flag:
@@ -108,7 +107,6 @@ def apple_feed():
                     print(' Feed gold apple success')
                 else:
                     sent_message(" Feed gold apple error", -1)
-                    time.sleep(60)
             else:
                 print(' No apple remain')
                 Serial.touch(0, 0)
@@ -121,7 +119,7 @@ def find_friend(servant):
     Current_state.WaitForFriendShowReady()
 
     if servant == "ALL":
-        print(' Just pick the first one')
+        print(' Just pick the first friend')
         Serial.touch(500, 240)
         time.sleep(1.5)
         Serial.touch(1005, 570)
@@ -154,6 +152,26 @@ def find_friend(servant):
         print(' Start battle button pressed')
 
 
+def start_attack():
+    # 包含状态监测的函数, 用于点击attack按钮
+    fail_times = 0
+    while True:
+        Serial.touch(960, 510)  # 点击attack按钮
+        time.sleep(2)
+        for card_name in ['Buster', 'Art', 'Quick']:
+            Flag, Position = Base_func.match_template(card_name)
+            if Flag:
+                break
+        if Flag:
+            print(" start attack success")
+            return
+        else:
+            fail_times += 1
+            if fail_times > 10:
+                sent_message("start attack error", -1)
+
+
+
 def budao():
     while True:
         while True:
@@ -166,8 +184,7 @@ def budao():
                 break
         Flag, Position = Base_func.match_template('Attack_button')
         if Flag:
-            Serial.touch(960, 510)  # 点击attack按钮
-            time.sleep(1)
+            start_attack() # 点击attack按钮
             Card_index = random.sample(range(0, 4), 3)  # 随机三张牌
             Serial.touch(115 + (Card_index[0]) * 215, 430)
             Serial.touch(115 + (Card_index[1]) * 215, 430)
@@ -222,7 +239,7 @@ def character_skill(character_no, skill_no, para=None):  # 角色编号，技能
     Position = (65 + (character_no - 1) * 270 + (skill_no - 1) * 80, 488)
     Serial.touch(Position[0], Position[1])
     if para is not None:
-        Position = (280 + (para - 1) * 250, 350)  # 技能选人
+        Position = (280 + (para - 1) * 250, 290)  # 技能选人, 点击的Y坐标取较高位置, 防止误触发角色状态
         Serial.touch(Position[0], Position[1])
     time.sleep(3)  # 等待技能动画时间
     Current_state.WaitForBattleStart()
@@ -230,8 +247,7 @@ def character_skill(character_no, skill_no, para=None):  # 角色编号，技能
 
 
 def card(TreasureDevice_no=1):
-    Serial.touch(960, 510)  # 点击attack按钮
-    time.sleep(2)
+    start_attack()  # 点击attack按钮
     Serial.touch(350 + (TreasureDevice_no - 1) * 200, 200)  # 打手宝具,参数可选1-3号宝具位
     Card_index = random.sample(range(0, 4), 2)  # 随机两张牌
     Serial.touch(115 + (Card_index[0]) * 215, 430)
@@ -264,4 +280,5 @@ def main(port_no, times, servant, battle_func):
 
 if __name__ == '__main__':
     main('com5', 50, "ALL", Battle_templates.QP)
+    # main('com5', 50, "ALL", Battle_templates.GoldenEgg)
     sent_message("脚本完成!", 1)
