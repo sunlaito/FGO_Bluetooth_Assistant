@@ -158,10 +158,7 @@ def start_attack():
     while True:
         Serial.touch(960, 510)  # 点击attack按钮
         time.sleep(2)
-        for card_name in ['Buster', 'Art', 'Quick']:
-            Flag, Position = Base_func.match_template(card_name)
-            if Flag:
-                break
+        Flag, Position = Base_func.match_template('Attack_return')
         if Flag:
             print(" start attack success")
             return
@@ -169,7 +166,6 @@ def start_attack():
             fail_times += 1
             if fail_times > 10:
                 sent_message("start attack error", -1)
-
 
 
 def budao():
@@ -184,7 +180,7 @@ def budao():
                 break
         Flag, Position = Base_func.match_template('Attack_button')
         if Flag:
-            start_attack() # 点击attack按钮
+            start_attack()  # 点击attack按钮
             Card_index = random.sample(range(0, 4), 3)  # 随机三张牌
             Serial.touch(115 + (Card_index[0]) * 215, 430)
             Serial.touch(115 + (Card_index[1]) * 215, 430)
@@ -235,24 +231,58 @@ def Master_skill(func=Mystic_Codes.Chaldea_Combat_Uniform, *args):
     time.sleep(1)
 
 
-def character_skill(character_no, skill_no, para=None):  # 角色编号，技能编号，选人（可选）
-    Position = (65 + (character_no - 1) * 270 + (skill_no - 1) * 80, 488)
-    Serial.touch(Position[0], Position[1])
-    if para is not None:
-        Position = (280 + (para - 1) * 250, 290)  # 技能选人, 点击的Y坐标取较高位置, 防止误触发角色状态
+def character_skill(character_no, skill_no, para=None, check=False):  # 角色编号，技能编号，选人（可选）
+    fail_times = 0
+    while True:
+        Position = (65 + (character_no - 1) * 270 + (skill_no - 1) * 80, 488)
         Serial.touch(Position[0], Position[1])
-    time.sleep(3)  # 等待技能动画时间
+        time.sleep(3)
+
+        Flag, Position = Base_func.match_template('SkillCancel')
+        if Flag:  # 技能成功
+            print(' Character{}\'s skill{} success'.format(character_no, skill_no))
+            Serial.touch(1000, 100)  # 点击一个安全位置(御主头像), 退出技能确认界面
+            break
+
+        if para is not None:
+            Position = (280 + (para - 1) * 250, 290)  # 技能选人, 点击的Y坐标取较高位置, 防止误触发角色状态
+            Serial.touch(Position[0], Position[1])
+            time.sleep(3)  # 等待技能动画时间
+
+        if check is False:
+            break  # 不检查技能
+
+        # 技能失败, 注意技能成功释放后的第一次检查一定失败
+        fail_times += 1
+        if fail_times > 10:
+            sent_message(' Character{}\'s skill{} error'.format(character_no, skill_no), -1)
+
     Current_state.WaitForBattleStart()
-    print(' Character{}\'s skill{} has pressed'.format(character_no, skill_no))
 
 
 def card(TreasureDevice_no=1):
-    start_attack()  # 点击attack按钮
-    Serial.touch(350 + (TreasureDevice_no - 1) * 200, 200)  # 打手宝具,参数可选1-3号宝具位
-    Card_index = random.sample(range(0, 4), 2)  # 随机两张牌
-    Serial.touch(115 + (Card_index[0]) * 215, 430)
-    Serial.touch(115 + (Card_index[1]) * 215, 430)
-    print(' Card has pressed')
+    fail_times = 0
+    while True:
+        start_attack()  # 点击attack按钮
+        Serial.touch(350 + (TreasureDevice_no - 1) * 200, 200)  # 打手宝具,参数可选1-3号宝具位
+        Card_index = random.sample(range(0, 4), 2)  # 随机两张牌
+        Serial.touch(115 + (Card_index[0]) * 215, 430)
+        Serial.touch(115 + (Card_index[1]) * 215, 430)
+
+        time.sleep(10) # 等待战斗动画播放完成
+        Flag, Position = Base_func.match_template('Attack_return')
+        if Flag:  # 宝具未成功释放, 卡在Attack界面, 点击返回键回到Battle界面
+            fail_times += 1
+            if fail_times > 10:
+                sent_message(" Card error", -1)
+            print(' Card {} failed, restart'.format(TreasureDevice_no))
+            Serial.touch(Position[0], Position[1])
+            Current_state.WaitForBattleStart()
+        else:  # 宝具成功释放, 进入Battle界面
+            print(' Card {} success'.format(TreasureDevice_no))
+            break
+
+
 
 
 def FGO_process(times, servant, Battle_func):

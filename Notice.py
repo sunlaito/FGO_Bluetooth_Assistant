@@ -35,4 +35,4 @@ def sent_message(text, sound_flag=False):
             winsound.PlaySound(r".\Notice_sound\success.wav", winsound.SND_FILENAME)
         elif sound_flag == -1:  # error notice
             winsound.PlaySound(r".\Notice_sound\error.wav", winsound.SND_FILENAME)
-            time.sleep(60)
+            time.sleep(10)

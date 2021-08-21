@@ -55,14 +55,15 @@ class Fuse:
 fuse = Fuse()
 
 
-def match_template(filename, show_switch=debug_flag, err=0.85):
+def match_template(filename, crop_size=[], err=0.85, show_switch=debug_flag):
     fuse.increase()
     temppath = './Template/' + filename + '.jpg'
     img = window_capture()
-    # img = cv.imread(imgpath)
+    if crop_size:
+        img = img[crop_size[0]:crop_size[1], crop_size[2]:crop_size[3]]
     player_template = cv.imread(temppath)
-    player = cv.matchTemplate(img, player_template, cv.TM_CCOEFF_NORMED)
 
+    player = cv.matchTemplate(img, player_template, cv.TM_CCOEFF_NORMED)
     min_val, max_val, min_loc, max_loc = cv.minMaxLoc(player)
     # 当图片中有与模板匹配度超过95%的部分时：
     if max_val > err:
