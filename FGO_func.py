@@ -83,19 +83,20 @@ def apple_feed():
     # 进入吃苹果界面的逻辑已在enter_battle()中完成, 无须再判断
     global num_GoldApple_used, num_SilverApple_used
     for apple_type in ['Silver_apple', 'Gold_apple']:
-        Flag, Position = Base_func.match_template(apple_type)
+        Flag, Position_apple = Base_func.match_template(apple_type)
         if Flag:
+            print(f' {apple_type} found')
             break
     if Flag:  # 持有银苹果或金苹果
         while True:  # 点击苹果直到进入吃苹果确认界面
-            Serial.touch(709, Position[1])
+            Serial.touch(709, Position_apple[1])
             time.sleep(1.5)
-            Flag, Position = Base_func.match_template('Feedapple_decide')
+            Flag, Position_decide = Base_func.match_template('Feedapple_decide')
             if Flag:
                 break
 
         while True:  # 点击决定吃苹果直到进入助战画面
-            Serial.touch(Position[0], Position[1])
+            Serial.touch(Position_decide[0], Position_decide[1])
             time.sleep(1.5)
             for friend_type in ['friend_sign', 'no_friend']:
                 Flag, Position = Base_func.match_template(friend_type)
@@ -315,15 +316,22 @@ num_GoldApple_used = 0
 num_SilverApple_used = 0
 
 
-def main(port_no, times, servant, battle_func):
+def main(port_no, times, servant, battle_name="default"):
     Serial.port_open(port_no)  # 写入通讯的串口号
     Serial.mouse_set_zero()
-    FGO_process(times, servant, battle_func)
+    FGO_process(times, servant, battle_dict[battle_name])
     Serial.port_close()
     print(' All done!')
 
 
+
+
 if __name__ == '__main__':
-    # main('com5', 50, "ALL", Battle_templates.QP)
-    main('com5', 50, "ALL", Battle_templates.GoldenEgg)
+    battle_dict = {"default": Battle_templates.WCBA_normal,
+                   "qp": Battle_templates.QP,
+                   "golden_egg": Battle_templates.GoldenEgg  # 迪瓦尔
+                   }
+    # main('com5', 30, "ALL", "golden_egg")
+    # main('com5', 30, "ALL", "qp")
+    main('com5', 2, "CBA")
     sent_message("脚本完成!", 1)
