@@ -333,5 +333,5 @@ if __name__ == '__main__':
                    }
     # main('com5', 30, "ALL", "golden_egg")
     # main('com5', 30, "ALL", "qp")
-    main('com5', 2, "CBA")
+    main('com5', 4, "CBA")
     sent_message("脚本完成!", 1)
