@@ -1,6 +1,50 @@
 from FGO_func import *
 
 
+def QP():
+    # 判断是否进入战斗界面
+    # Serial.mouse_set_zero()         #鼠标复位,防止误差累积
+    time.sleep(8)  # 等待战斗开始
+
+    # 宝具+宝具+(自充&宝具)
+    # Turn1
+    Current_state.WaitForBattleStart()
+    # character_skill(3, 3, check=True)  # 大英雄
+    character_skill(3, 2, check=True)  # 斯巴达克斯自充, 关键技能
+    card(3)
+
+    # Turn2
+    Current_state.WaitForBattleStart()
+    card(1)
+
+    # Turn3
+    Current_state.WaitForBattleStart()
+    card(2)
+
+
+def GoldenEgg():
+    # 判断是否进入战斗界面
+    time.sleep(8)  # 等待战斗开始
+
+    # 尼托+狂金时+梅林
+    # Turn1
+    Current_state.WaitForBattleStart()
+    character_skill(1, 1)
+    card(1)
+
+    # Turn2
+    Current_state.WaitForBattleStart()
+    character_skill(1, 2, check=True)  # 尼托自充, 关键技能
+    card(1)
+
+    # Turn3
+    Current_state.WaitForBattleStart()
+    character_skill(2, 2, check=True)  # 金时自充, 关键技能
+    character_skill(2, 1)
+    character_skill(3, 1)
+    character_skill(3, 3, 2)
+    card(2)
+
 
 def WCBA_GoldenEgg():
     # 判断是否进入战斗界面
@@ -59,46 +103,26 @@ def WCBA_normal():
     card()
 
 
-def QP():
-    # 判断是否进入战斗界面
-    # Serial.mouse_set_zero()         #鼠标复位,防止误差累积
+def WCaber_normal():
     time.sleep(8)  # 等待战斗开始
 
-    # 宝具+宝具+(自充&宝具)
+    # ???+Caber+Caber
     # Turn1
     Current_state.WaitForBattleStart()
-    # character_skill(3, 3, check=True)  # 大英雄
-    character_skill(3, 2, check=True)  # 斯巴达克斯自充, 关键技能
-    card(3)
+    character_skill(2, 1, check=True)
+    character_skill(2, 2, 1, check=True)
+    character_skill(2, 3, 1, check=True)
+    character_skill(3, 1, check=True)
+    character_skill(3, 2, 1, check=True)
+    character_skill(3, 3, 1, check=True)
+
+    character_skill(1, 1, check=True)
+    card()
 
     # Turn2
     Current_state.WaitForBattleStart()
-    card(1)
+    card()
 
     # Turn3
     Current_state.WaitForBattleStart()
-    card(2)
-
-
-def GoldenEgg():
-    # 判断是否进入战斗界面
-    time.sleep(8)  # 等待战斗开始
-
-    # 尼托+狂金时+梅林
-    # Turn1
-    Current_state.WaitForBattleStart()
-    character_skill(1, 1)
-    card(1)
-
-    # Turn2
-    Current_state.WaitForBattleStart()
-    character_skill(1, 2, check=True)  # 尼托自充, 关键技能
-    card(1)
-
-    # Turn3
-    Current_state.WaitForBattleStart()
-    character_skill(2, 2, check=True)  # 金时自充, 关键技能
-    character_skill(2, 1)
-    character_skill(3, 1)
-    character_skill(3, 3, 2)
-    card(2)
+    card()
