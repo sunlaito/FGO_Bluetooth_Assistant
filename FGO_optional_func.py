@@ -55,4 +55,5 @@ def MakeCraftEssenceEXCard():
 
 
 if __name__ == '__main__':
-    FriendPointSummon()
+    # FriendPointSummon()
+    InfinatePool()

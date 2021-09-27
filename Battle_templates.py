@@ -1,7 +1,6 @@
 from FGO_func import *
 
 
-
 def WCBA_GoldenEgg():
     # 判断是否进入战斗界面
     # Serial.mouse_set_zero()         #鼠标复位,防止误差累积
@@ -102,3 +101,38 @@ def GoldenEgg():
     character_skill(3, 1)
     character_skill(3, 3, 2)
     card(2)
+
+
+def infPool21():
+    time.sleep(8)  # 等待战斗开始
+
+    # 美狄亚+剑呆+C呆+孔明
+    # Turn1
+    Current_state.WaitForBattleStart()
+    character_skill(3, 3, 1, check=True)
+    character_skill(2, 1)
+    character_skill(1, 1, check=True)
+    card(1)
+
+    # Turn2
+    Current_state.WaitForBattleStart()
+    character_skill(3, 1, check=True)
+    character_skill(3, 2, 2, check=True)
+
+    # C呆换孔明
+    Master_skill(Mystic_Codes.Chaldea_Combat_Uniform, 3, 3, 1)
+    Current_state.WaitForBattleStart()
+    character_skill(3, 3, check=True)
+    character_skill(3, 2, check=True)
+    character_skill(3, 1, 1, check=True)
+    card(1)
+
+    # Turn3
+    Current_state.WaitForBattleStart()
+    character_skill(2, 2)
+    character_skill(2, 3, check=True)
+    Master_skill(Mystic_Codes.Chaldea_Combat_Uniform, 1)
+    card(2)
+
+
+

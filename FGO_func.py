@@ -329,9 +329,11 @@ def main(port_no, times, servant, battle_name="default"):
 if __name__ == '__main__':
     battle_dict = {"default": Battle_templates.WCBA_normal,
                    "qp": Battle_templates.QP,
-                   "golden_egg": Battle_templates.GoldenEgg  # 迪瓦尔
+                   "golden_egg": Battle_templates.GoldenEgg, # 迪瓦尔
+                   "infp21": Battle_templates.infPool21  # 无限池2021
                    }
     # main('com5', 30, "ALL", "golden_egg")
     # main('com5', 30, "ALL", "qp")
-    main('com5', 4, "CBA")
+    # main('com5', 4, "CBA")
+    main('com5', 5, "Caber", "infp21")
     sent_message("脚本完成!", 1)
