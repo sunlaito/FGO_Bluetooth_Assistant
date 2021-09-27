@@ -13,12 +13,13 @@ import time
 
 
 # 无限池抽取函数
-def InfinatePool():
+def InfinatePool(times=100):
     Serial.port_open('com3')
     Serial.mouse_set_zero()
     Serial.mouse_move((320, 360))
-    for i in range(100):
+    for i in range(times):
         Serial.mouse_click()
+        time.sleep(0.1)
 
 
 # 友情池抽取函数
@@ -56,4 +57,4 @@ def MakeCraftEssenceEXCard():
 
 if __name__ == '__main__':
     # FriendPointSummon()
-    InfinatePool()
+    InfinatePool(200)

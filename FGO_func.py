@@ -316,7 +316,7 @@ num_GoldApple_used = 0
 num_SilverApple_used = 0
 
 
-def main(port_no, times, servant, battle_name="default"):
+def main(port_no, times, servant, battle_name):
     Serial.port_open(port_no)  # 写入通讯的串口号
     Serial.mouse_set_zero()
     FGO_process(times, servant, battle_dict[battle_name])
@@ -324,16 +324,16 @@ def main(port_no, times, servant, battle_name="default"):
     print(' All done!')
 
 
-
-
 if __name__ == '__main__':
-    battle_dict = {"default": Battle_templates.WCBA_normal,
+    battle_dict = {"WCBA": Battle_templates.WCBA_normal,  # 伯爵+WCBA
                    "qp": Battle_templates.QP,
-                   "golden_egg": Battle_templates.GoldenEgg, # 迪瓦尔
-                   "infp21": Battle_templates.infPool21  # 无限池2021
+                   "golden_egg": Battle_templates.GoldenEgg,  # 迪瓦尔
+                   "WCaber": Battle_templates.WCaber_normal,  # 打手+WCD
+                   "infp21": Battle_templates.infPool21  # 21无限池
                    }
     # main('com5', 30, "ALL", "golden_egg")
     # main('com5', 30, "ALL", "qp")
-    # main('com5', 4, "CBA")
+    # main('com5', 8, "CBA", "WCBA")
+    # main('com5', 5, "Caber", "WCaber")
     main('com5', 5, "Caber", "infp21")
     sent_message("脚本完成!", 1)

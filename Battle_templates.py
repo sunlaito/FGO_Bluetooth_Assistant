@@ -103,6 +103,31 @@ def GoldenEgg():
     card(2)
 
 
+def WCaber_normal():
+    time.sleep(8)  # 等待战斗开始
+
+    # mainC+Caber+Caber
+    # Turn1
+    Current_state.WaitForBattleStart()
+    character_skill(2, 1, check=True)
+    character_skill(2, 2, 1, check=True)
+    character_skill(2, 3, 1, check=True)
+    character_skill(3, 1, check=True)
+    character_skill(3, 2, 1, check=True)
+    character_skill(3, 3, 1, check=True)
+
+    character_skill(1, 1, check=True)
+    card()
+
+    # Turn2
+    Current_state.WaitForBattleStart()
+    card()
+
+    # Turn3
+    Current_state.WaitForBattleStart()
+    card()
+
+
 def infPool21():
     time.sleep(8)  # 等待战斗开始
 
@@ -118,7 +143,6 @@ def infPool21():
     Current_state.WaitForBattleStart()
     character_skill(3, 1, check=True)
     character_skill(3, 2, 2, check=True)
-
     # C呆换孔明
     Master_skill(Mystic_Codes.Chaldea_Combat_Uniform, 3, 3, 1)
     Current_state.WaitForBattleStart()
