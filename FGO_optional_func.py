@@ -10,6 +10,7 @@ import sys
 # import Serial
 import Serial_wormhole as Serial
 import time
+import winsound
 
 
 # 无限池抽取函数
@@ -58,3 +59,4 @@ def MakeCraftEssenceEXCard():
 if __name__ == '__main__':
     # FriendPointSummon()
     InfinatePool(200)
+    winsound.MessageBeep()

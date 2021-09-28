@@ -90,19 +90,16 @@ def apple_feed():
     if Flag:  # 持有银苹果或金苹果
         while True:  # 点击苹果直到进入吃苹果确认界面
             Serial.touch(709, Position_apple[1])
-            time.sleep(1.5)
+            time.sleep(3)
             Flag, Position_decide = Base_func.match_template('Feedapple_decide')
             if Flag:
                 break
 
         while True:  # 点击决定吃苹果直到进入助战画面
             Serial.touch(Position_decide[0], Position_decide[1])
-            time.sleep(1.5)
-            for friend_type in ['friend_sign', 'no_friend']:
-                Flag, Position = Base_func.match_template(friend_type)
-                if Flag:
-                    break
-            if Flag:
+            time.sleep(3)
+            Flag, _ = Base_func.match_template('Feedapple_decide')
+            if not Flag:
                 if apple_type == 'Silver_apple':
                     num_SilverApple_used += 1
                 else:
@@ -148,8 +145,13 @@ def find_friend(servant):
         print(' Success find', servant)
         Serial.touch(Position[0], Position[1] - 60)
         time.sleep(1.5)
-        Serial.touch(1005, 570)
-        print(' Start battle button pressed')
+        while True:
+            Serial.touch(1005, 570)
+            time.sleep(1.5)
+            Flag, Position = Base_func.match_template('Attack_button')
+            if Flag:
+                break
+        print(' Start battle success')
 
 
 def start_attack():
@@ -335,5 +337,5 @@ if __name__ == '__main__':
     # main('com5', 30, "ALL", "qp")
     # main('com5', 8, "CBA", "WCBA")
     # main('com5', 5, "Caber", "WCaber")
-    main('com5', 5, "Caber", "infp21")
+    main('com5', 2, "Caber", "infp21")
     sent_message("脚本完成!", 1)

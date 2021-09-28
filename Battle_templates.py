@@ -133,6 +133,7 @@ def infPool21():
 
     # 美狄亚+剑呆+C呆+孔明
     # Turn1
+    print("T1")
     Current_state.WaitForBattleStart()
     character_skill(3, 3, 1, check=True)
     character_skill(2, 1)
@@ -140,11 +141,19 @@ def infPool21():
     card(1)
 
     # Turn2
+    print("T2")
     Current_state.WaitForBattleStart()
     character_skill(3, 1, check=True)
     character_skill(3, 2, 2, check=True)
     # C呆换孔明
-    Master_skill(Mystic_Codes.Chaldea_Combat_Uniform, 3, 3, 1)
+    while True:
+        Master_skill(Mystic_Codes.Chaldea_Combat_Uniform, 3, 3, 1)
+        time.sleep(1)
+        Serial.touch(1000, 170, 4)  # 战斗菜单
+        Serial.touch(1000, 100, 5)  # 御主头像
+        Flag, Position = Base_func.match_template('KMFlag')
+        if Flag:
+            break
     Current_state.WaitForBattleStart()
     character_skill(3, 3, check=True)
     character_skill(3, 2, check=True)
@@ -152,6 +161,7 @@ def infPool21():
     card(1)
 
     # Turn3
+    print("T3")
     Current_state.WaitForBattleStart()
     character_skill(2, 2)
     character_skill(2, 3, check=True)
