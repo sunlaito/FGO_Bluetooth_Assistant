@@ -331,11 +331,13 @@ if __name__ == '__main__':
                    "qp": Battle_templates.QP,
                    "golden_egg": Battle_templates.GoldenEgg,  # 迪瓦尔
                    "WCaber": Battle_templates.WCaber_normal,  # 打手+WCD
-                   "infp21": Battle_templates.infPool21  # 21无限池
+                   "WCaberLin": Battle_templates.WCaber_lin,  # 打手+WCD
+                   "infp21": Battle_templates.infPool21,  # 21无限池
+                   "ymt": Battle_templates.ymt21  # 邪马台
                    }
     # main('com5', 30, "ALL", "golden_egg")
     # main('com5', 30, "ALL", "qp")
     # main('com5', 8, "CBA", "WCBA")
-    # main('com5', 5, "Caber", "WCaber")
-    main('com5', 2, "Caber", "infp21")
+    main('com5', 10, "Caber", "WCaberLin")
+    # main('com5', 10, "ALL", "ymt")
     sent_message("脚本完成!", 1)
