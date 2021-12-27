@@ -176,9 +176,7 @@ def Master_skill(func=Mystic_Codes.Chaldea_Combat_Uniform, *args):
     time.sleep(1)
     func(*args)
     time.sleep(1)
-    Current_state.WaitForBattleStart()
     print(' Master skill{} has pressed'.format(args[0]))
-    time.sleep(1)
 
 
 def character_skill(character_no, skill_no, para=None, check=False):  # 角色编号，技能编号，选人（可选）
@@ -331,13 +329,15 @@ if __name__ == '__main__':
                    "qp": Battle_templates.QP,
                    "golden_egg": Battle_templates.GoldenEgg,  # 迪瓦尔
                    "WCaber": Battle_templates.WCaber_normal,  # 打手+WCD
-                   "WCaberLin": Battle_templates.WCaber_lin,  # 打手+WCD
+                   "WCaberLin": Battle_templates.WCaber_lin,  # Lin+WCD
                    "infp21": Battle_templates.infPool21,  # 21无限池
-                   "ymt": Battle_templates.ymt21  # 邪马台
+                   "ymt": Battle_templates.ymt21,  # 邪马台
+                   "xmas21": Battle_templates.xmas21  # 圣诞21
                    }
     # main('com5', 30, "ALL", "golden_egg")
     # main('com5', 30, "ALL", "qp")
     # main('com5', 8, "CBA", "WCBA")
-    main('com5', 10, "Caber", "WCaberLin")
+    # main('com5', 10, "Caber", "WCaberLin")
     # main('com5', 10, "ALL", "ymt")
+    main('com5', 5, "Caber", "xmas21")
     sent_message("脚本完成!", 1)
