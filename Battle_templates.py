@@ -135,7 +135,7 @@ def WCaber_lin():
     # Turn1
     Current_state.WaitForBattleStart()
 
-    character_skill(2, 1, check=True)
+    # character_skill(2, 1, check=True)
     character_skill(2, 2, 1, check=True)
     character_skill(2, 3, 1, check=True)
 
