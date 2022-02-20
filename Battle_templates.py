@@ -210,13 +210,11 @@ def ymt21():
     character_skill(3, 1, check=True)
     character_skill(3, 2, 1, check=True)
     character_skill(3, 3, 1, check=True)
-    card(1)
 
-    # Turn2
-    print("T2")
-    Current_state.WaitForBattleStart()
+    # 提前开好阿荣技能, 防止换人程序误判
     character_skill(2, 1, check=True)
     character_skill(2, 3)
+
     # C呆换C呆
     while True:
         Master_skill(Mystic_Codes.Chaldea_Combat_Uniform, 3, 3, 1)  # 前排3换后排1
@@ -226,19 +224,30 @@ def ymt21():
         Flag, Position = Base_func.match_template('CBFlag')
         if Flag:
             break
+
     Current_state.WaitForBattleStart()
+    character_skill(3, 2, 1, check=True)
+    character_skill(3, 3, 1, check=True)
+
+    card(1)
+
+    # Turn2
+    print("T2")
+    Current_state.WaitForBattleStart()
+
     character_skill(3, 1, check=True)
-    character_skill(3, 2, 2, check=True)
-    # character_skill(3, 3, 2)
+
     card(2)
 
     # Turn3
     print("T3")
     Current_state.WaitForBattleStart()
     character_skill(1, 3, check=True)
+    character_skill(1, 2, 2)
     # character_skill(1, 2, 2, check=True)
     # Master_skill(Mystic_Codes.Chaldea_Combat_Uniform, 1)
     card(1)
+    
 
 def xmas21():
     # time.sleep(8)  # 等待战斗开始
@@ -270,7 +279,7 @@ def xmas21():
     # Turn2
     print("T2")
     Current_state.WaitForBattleStart()
-    character_skill(3, 1)
+    character_skill(3, 1, check=True)
     character_skill(2, 2, 2, check=True)
     character_skill(2, 3)
 
