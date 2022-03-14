@@ -66,8 +66,8 @@ def QP():
     # 宝具+宝具+(自充&宝具)
     # Turn1
     Current_state.WaitForBattleStart()
-    # character_skill(3, 3, check=True)  # 大英雄
-    character_skill(3, 2, check=True)  # 斯巴达克斯自充, 关键技能
+    character_skill(3, 3, check=True)  # 大英雄自充
+    # character_skill(3, 2, check=True)  # 斯巴达克斯自充
     card(3)
 
     # Turn2
@@ -291,5 +291,42 @@ def xmas21():
     character_skill(1, 3, check=True)
     character_skill(1, 2, 2)
     Master_skill(Mystic_Codes.Chaldea_Combat_Uniform, 1)
+
+    card(1)
+
+
+def wvalentino22():
+    # time.sleep(8)  # 等待战斗开始
+
+    # 村正+C呆+C呆
+    # Turn1
+    print("T1")
+    Current_state.WaitForBattleStart()
+
+    character_skill(2, 3, 1, check=True)
+    character_skill(3, 3, 1, check=True)
+
+    card(1)
+
+    # Turn2
+    print("T2")
+    Current_state.WaitForBattleStart()
+
+    character_skill(1, 1)
+    character_skill(2, 1, check=True)
+    character_skill(2, 2, 1, check=True)
+    character_skill(3, 1, check=True)
+    character_skill(3, 2, 1, check=True)
+
+    card(1)
+
+    # Turn3
+    print("T3")
+    Current_state.WaitForBattleStart()
+
+    character_skill(1, 3, check=True)
+
+
+    Master_skill(Mystic_Codes.Tropical_Summer, 2, 1)
 
     card(1)

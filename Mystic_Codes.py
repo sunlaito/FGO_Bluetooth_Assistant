@@ -11,11 +11,12 @@ import Serial_wormhole as Serial
 # 换人服
 def Chaldea_Combat_Uniform(*args):
     def Hanlder(*args):
-        if args[0] == 1:  # 加攻
+        if args[0] == 1:  # 加攻, 无需指定目标
             Serial.touch(760, 266)
-        elif args[0] == 2:  # 眩晕
+        elif args[0] == 2:  # 眩晕, 无需指定目标
             Serial.touch(835, 266)
-        elif args[0] == 3:  # 换人
+
+        elif args[0] == 3:  # 换人, 特殊, 需两个指定目标
             Serial.touch(920, 266)
             Serial.touch(630 + (args[2] - 1) * 170, 300)
             Serial.touch(120 + (args[1] - 1) * 170, 300)

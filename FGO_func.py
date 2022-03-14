@@ -113,6 +113,8 @@ def apple_feed():
 
 
 def find_friend(servant):
+    print(f'Start finding servant')
+
     Current_state.WaitForFriendShowReady()  # 等待助战列表载入完成
 
     if servant == "ALL":
@@ -120,29 +122,51 @@ def find_friend(servant):
         Serial.touch(500, 240)
         time.sleep(1.5)
         Serial.touch(1005, 570)
-        print(' Start battle button pressed')
+        print(' Start battle success')
         return
 
-    Flag, Position = Base_func.match_template(servant + '_skill_level', False, 0.9)
-    time_limit_flag = 1
     # 找310servant直到找到为止
-    while bool(1 - Flag):
-        print(' Didn\'t find {}, retry. Attempt{}'.format(servant, time_limit_flag))
-        if time_limit_flag > 1:
-            time.sleep(15)
-            # Flag,Position = Base_func.match_template('Refresh_friend')
+    print(f' Start finding {servant}')
+
+    time_limit_flag = 1
+    Flag = 0
+    slidebar_trials = 0
+    slidebar_pos = [1060, 230]
+
+    while Flag == 0:
+        print(' Finding {}, Attempt{}'.format(servant, time_limit_flag))
+
+        while slidebar_trials < 3:
+            Flag, Position = Base_func.match_template(servant + '_skill_level', False, 0.9)
+
+            slidebar_trials += 1
+
+            if Flag==1:
+                break
+            else:
+                Serial.touch(*slidebar_pos)  # 下拉右侧页面条
+                slidebar_pos[1] += 60
+
+                time.sleep(1.5)
+
+        if Flag==1:
+            break
+
+        # refresh friends
         Serial.touch(710, 110)
         time.sleep(1.5)
-        Flag, Position = Base_func.match_template('Refresh_decide')
-        Serial.touch(Position[0], Position[1])
 
+        Flag_temp, Position_temp = Base_func.match_template('Refresh_decide')
+        Serial.touch(Position_temp[0], Position_temp[1])
         Current_state.WaitForFriendShowReady()
 
-        Flag, Position = Base_func.match_template(servant + '_skill_level', False, 0.9)
+        time.sleep(15)
+
         time_limit_flag += 1
 
+
     if Flag:
-        print(' Success find', servant)
+        print(f' Finding {servant} Success')
         Serial.touch(Position[0], Position[1] - 60)
         time.sleep(1.5)
         while True:
@@ -172,8 +196,11 @@ def start_attack():
 
 def Master_skill(func=Mystic_Codes.Chaldea_Combat_Uniform, *args):
     # 御主技能模块较复杂, 暂未修改
+    time.sleep(1)
+
     Serial.touch(1010, 266)  # 御主技能按键
     time.sleep(1)
+
     func(*args)
     time.sleep(1)
     print(' Master skill{} has pressed'.format(args[0]))
@@ -332,12 +359,13 @@ if __name__ == '__main__':
                    "WCaberLin": Battle_templates.WCaber_lin,  # Lin+WCD
                    "infp21": Battle_templates.infPool21,  # 21无限池
                    "ymt": Battle_templates.ymt21,  # 邪马台
-                   "xmas21": Battle_templates.xmas21  # 圣诞21
+                   "xmas21": Battle_templates.xmas21,  # 圣诞21
+                   "wv22": Battle_templates.wvalentino22
                    }
     # main('com5', 30, "ALL", "golden_egg")
-    # main('com5', 30, "ALL", "qp")
+    main('com5', 10, "ALL", "qp")
     # main('com5', 8, "CBA", "WCBA")
     # main('com5', 5, "Caber", "WCaberLin")
-    main('com5', 10, "Caber", "ymt")
+    # main('com5', 5, "Caber", "wv22")
     # main('com5', 5, "Caber", "xmas21")
     sent_message("脚本完成!", 1)
