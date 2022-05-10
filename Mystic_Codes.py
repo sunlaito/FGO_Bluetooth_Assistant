@@ -44,6 +44,23 @@ def Tropical_Summer(*args):
     Hanlder(*args)
 
 
+# 充能服
+def MP20_suit(*args):
+    if args[0] == 1:
+        Serial.touch(760, 266)
+        # 全体回复
+
+    elif args[0] == 2:
+        Serial.touch(835, 266)
+        Position = (280 + (args[1] - 1) * 250, 350)
+        Serial.touch(Position[0], Position[1])
+        # 充能20%，技能选人
+
+    elif args[0] == 3:
+        Serial.touch(920, 266)
+        # 洗牌
+
+
 # 模板
 def Template(*args):
     def Hanlder(*args):

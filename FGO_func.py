@@ -353,6 +353,7 @@ def main(port_no, times, servant, battle_name):
 
 if __name__ == '__main__':
     battle_dict = {"WCBA": Battle_templates.WCBA_normal,  # 伯爵+WCBA
+                   "exp": Battle_templates.Exp_22,
                    "qp": Battle_templates.QP,
                    "golden_egg": Battle_templates.GoldenEgg,  # 迪瓦尔
                    "WCaber": Battle_templates.WCaber_normal,  # 打手+WCD
@@ -360,12 +361,16 @@ if __name__ == '__main__':
                    "infp21": Battle_templates.infPool21,  # 21无限池
                    "ymt": Battle_templates.ymt21,  # 邪马台
                    "xmas21": Battle_templates.xmas21,  # 圣诞21
-                   "wv22": Battle_templates.wvalentino22
+                   "wv22": Battle_templates.wvalentino22,
+                   "idol22": Battle_templates.idol22,
+                   "gl22": Battle_templates.grailive_1,
                    }
+    # main('com5', 10, "ALL", "exp")
     # main('com5', 30, "ALL", "golden_egg")
     main('com5', 10, "ALL", "qp")
     # main('com5', 8, "CBA", "WCBA")
-    # main('com5', 5, "Caber", "WCaberLin")
+    # main('com5', 1, "Caber", "WCaberLin")
     # main('com5', 5, "Caber", "wv22")
     # main('com5', 5, "Caber", "xmas21")
+    # main('com5', 4, "Caber", "gl22")
     sent_message("脚本完成!", 1)

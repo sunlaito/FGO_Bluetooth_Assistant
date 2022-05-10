@@ -1,6 +1,31 @@
 from FGO_func import *
 
 
+def Exp_22():
+    time.sleep(8)  # 等待战斗开始
+
+    # B1+B2+Stella
+    # Turn1
+    print("T1")
+    Current_state.WaitForBattleStart()
+
+    card(1)
+
+    # Turn2
+    print("T2")
+    Current_state.WaitForBattleStart()
+
+    card(2)
+
+    # Turn3
+    print("T3")
+    Current_state.WaitForBattleStart()
+
+    # Stella
+    character_skill(3, 3, check=True)
+    card(3)
+
+
 def WCBA_GoldenEgg():
     # 判断是否进入战斗界面
     # Serial.mouse_set_zero()         #鼠标复位,防止误差累积
@@ -131,11 +156,10 @@ def WCaber_normal():
 def WCaber_lin():
     time.sleep(8)  # 等待战斗开始
 
-    # Lin(with 60start energy)+Caber+Caber
+    # Lin(60MP)+Caber+Caber
     # Turn1
     Current_state.WaitForBattleStart()
 
-    # character_skill(2, 1, check=True)
     character_skill(2, 2, 1, check=True)
     character_skill(2, 3, 1, check=True)
 
@@ -147,6 +171,8 @@ def WCaber_lin():
 
     # Turn2
     Current_state.WaitForBattleStart()
+
+    character_skill(2, 1, check=True)
     character_skill(3, 1, check=True)
 
     card()
@@ -330,3 +356,156 @@ def wvalentino22():
     Master_skill(Mystic_Codes.Tropical_Summer, 2, 1)
 
     card(1)
+
+
+def idol22():
+    time.sleep(8)  # 等待战斗开始
+
+    # Caber+Lin(60mp)+Caber
+    # Turn1
+    print("T1")
+    Current_state.WaitForBattleStart()
+
+    # character_skill(2, 1, check=True)
+    character_skill(1, 2, 2, check=True)
+    character_skill(1, 3, 2, check=True)
+
+    character_skill(3, 2, 2, check=True)
+    character_skill(3, 3, 2, check=True)
+
+    character_skill(2, 1)
+    card(2)
+
+    # Turn2
+    print("T2")
+    Current_state.WaitForBattleStart()
+    character_skill(3, 1, check=True)
+
+    card(2)
+
+    # Turn3
+    print("T3")
+    Current_state.WaitForBattleStart()
+    character_skill(2, 3)
+
+    card(2)
+
+
+def grailive_1():
+    time.sleep(8)  # 等待战斗开始
+
+    # Caber+小达芬奇+Caber
+    # Turn1
+    print("T1")
+    Current_state.WaitForBattleStart()
+
+    # Caber1
+    character_skill(1, 1)
+    character_skill(1, 2, 2, check=True)
+    character_skill(1, 3, 2, check=True)
+
+    # Caber2
+    character_skill(3, 2, 2, check=True)
+    character_skill(3, 3, 2, check=True)
+
+    # 达芬奇
+    character_skill(2, 1, check=True)
+
+    # 宝具
+    card(2)
+
+    # Turn2
+    print("T2")
+    Current_state.WaitForBattleStart()
+
+    character_skill(3, 1)
+    character_skill(2, 3, check=True)
+    card(2)
+
+    # Turn3
+    print("T3")
+    Current_state.WaitForBattleStart()
+
+    # suit
+    Master_skill(Mystic_Codes.MP20_suit, 2, 2)
+
+    card(2)
+
+
+def grailive_2():
+    time.sleep(8)  # 等待战斗开始
+
+    # 拉2+尼托+Caber
+    # Turn1
+    print("T1")
+    Current_state.WaitForBattleStart()
+
+    # 拉2
+    character_skill(1, 1)
+    character_skill(1, 3, check=True)
+    character_skill(1, 2)
+    # Caber
+    character_skill(3, 1)
+    character_skill(3, 2, 1, check=True)
+    character_skill(3, 3, 2, check=True)
+    # suit
+    Master_skill(Mystic_Codes.MP20_suit, 2, 2)
+    # 宝具
+    card(2)
+
+    # Turn2
+    print("T2")
+    Current_state.WaitForBattleStart()
+
+    card(1)
+
+    # Turn3
+    print("T3")
+    Current_state.WaitForBattleStart()
+
+    character_skill(2, 2, check=True)
+
+    card(2)
+
+
+def grailive_3():
+    time.sleep(8)  # 等待战斗开始
+
+    # Caber+Lin+Caber
+    # Turn1
+    print("T1")
+    Current_state.WaitForBattleStart()
+
+    # Caber1
+    character_skill(1, 1)
+    character_skill(1, 2, 2, check=True)
+    character_skill(1, 3, 2, check=True)
+
+    # Caber2
+    character_skill(3, 2, 2, check=True)
+    character_skill(3, 3, 2, check=True)
+
+    # Lin
+    character_skill(2, 1)
+
+    # 宝具
+    card(2)
+
+    # Turn2
+    print("T2")
+    Current_state.WaitForBattleStart()
+
+    character_skill(3, 1)
+    card(2)
+
+    # Turn3
+    print("T3")
+    Current_state.WaitForBattleStart()
+
+    character_skill(2, 2, 2, check=True)
+    character_skill(2, 3, check=True)
+
+    # suit
+    Master_skill(Mystic_Codes.Tropical_Summer, 3, 2)
+
+    card(2)
