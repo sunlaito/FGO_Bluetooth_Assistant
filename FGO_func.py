@@ -128,54 +128,69 @@ def find_friend(servant):
     # 找310servant直到找到为止
     print(f' Start finding {servant}')
 
-    time_limit_flag = 1
-    Flag = 0
-    slidebar_trials = 0
-    slidebar_pos = [1060, 230]
+    refresh_trials = 1
+    refresh_limits = 3
+    friend_Flag, friend_Position = False, (-1, -1)
 
-    while Flag == 0:
-        print(' Finding {}, Attempt{}'.format(servant, time_limit_flag))
+    while not friend_Flag:
+        print(f' Finding {servant}, Attempt {refresh_trials}')
 
-        while slidebar_trials < 3:
-            Flag, Position = Base_func.match_template(servant + '_skill_level', False, 0.9)
+        friend_Flag, friend_Position = find_friend_single(servant, slidebar_limit=3)
 
-            slidebar_trials += 1
-
-            if Flag==1:
-                break
-            else:
-                Serial.touch(*slidebar_pos)  # 下拉右侧页面条
-                slidebar_pos[1] += 60
-
-                time.sleep(1.5)
-
-        if Flag==1:
+        if friend_Flag:
             break
 
-        # refresh friends
+        # refresh friends list
         Serial.touch(710, 110)
         time.sleep(1.5)
 
         Flag_temp, Position_temp = Base_func.match_template('Refresh_decide')
-        Serial.touch(Position_temp[0], Position_temp[1])
+        Serial.touch(*Position_temp)
         Current_state.WaitForFriendShowReady()
-
         time.sleep(15)
 
-        time_limit_flag += 1
+        refresh_trials += 1
+        if refresh_trials > refresh_limits:
+            sent_message("finding friends error", sound_flag=-1)
 
+    # confirm friend
+    assert friend_Flag is True
 
-    if Flag:
-        print(f' Finding {servant} Success')
-        Serial.touch(Position[0], Position[1] - 60)
+    print(f' Finding {servant} Success')
+    Serial.touch(friend_Position[0], friend_Position[1] - 60)
+    time.sleep(1.5)
+
+    # detecting battle start
+    while True:
+        Serial.touch(1005, 570)
         time.sleep(1.5)
-        while True:
-            Serial.touch(1005, 570)
+        Flag, Position = Base_func.match_template('Attack_button')
+        if Flag:
+            break
+    print(' Start battle success')
+
+
+def find_friend_single(servant, slidebar_limit=3):
+
+    slidebar_trials = 0
+    slidebar_pos = [1060, 230]
+    Flag, Position = False, (-1, -1)
+
+    while slidebar_trials < slidebar_limit:
+
+        slidebar_trials += 1
+
+        Flag, Position = Base_func.match_template(servant + '_skill_level', False, 0.9)
+
+        if Flag == 1:
+            break
+        else:
+            Serial.touch(*slidebar_pos)  # 下拉右侧页面条
+            slidebar_pos[1] += 60
             time.sleep(1.5)
-            Flag, Position = Base_func.match_template('Attack_button')
-            if Flag:
-                break
-        print(' Start battle success')
+
+    return Flag, Position
+
 
 
 def start_attack():
@@ -351,7 +366,19 @@ def main(port_no, times, servant, battle_name):
     print(' All done!')
 
 
+def quick_main(battle_name, turns=1):
+    Serial.port_open(port_no="com5")  # 写入通讯的串口号
+    Serial.mouse_set_zero()
+
+    battle_func = battle_dict[battle_name]
+    battle_func(turns)
+
+    Serial.port_close()
+    print(' Quick battle done!')
+
+
 if __name__ == '__main__':
+
     battle_dict = {"WCBA": Battle_templates.WCBA_normal,  # 伯爵+WCBA
                    "exp": Battle_templates.Exp_22,
                    "qp": Battle_templates.QP,
@@ -364,13 +391,21 @@ if __name__ == '__main__':
                    "wv22": Battle_templates.wvalentino22,
                    "idol22": Battle_templates.idol22,
                    "gl22": Battle_templates.grailive_1,
+                   "Q_WCaberLin": Battle_templates.quick_WCaber_lin,
                    }
-    # main('com5', 10, "ALL", "exp")
+
+    main('com5', 10, "ALL", "exp")
     # main('com5', 30, "ALL", "golden_egg")
-    main('com5', 10, "ALL", "qp")
+    # main('com5', 10, "ALL", "qp")
     # main('com5', 8, "CBA", "WCBA")
-    # main('com5', 1, "Caber", "WCaberLin")
+
     # main('com5', 5, "Caber", "wv22")
     # main('com5', 5, "Caber", "xmas21")
     # main('com5', 4, "Caber", "gl22")
+
+
+    # quick_main("Q_WCaberLin", turns=1); sys.exit(0)
+    # main('com5', 3, "Caber", "WCaberLin")
+    # main('com5', 1, "Caber", "WCaber")
+
     sent_message("脚本完成!", 1)

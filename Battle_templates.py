@@ -1,6 +1,41 @@
 from FGO_func import *
 
 
+def quick_WCaber_lin(turns=1):
+    # time.sleep(8)  # 等待战斗开始
+
+    # Lin(60MP)+Caber+Caber
+    # Turn1
+    Current_state.WaitForBattleStart()
+
+    character_skill(2, 2, 1, check=True)
+    character_skill(2, 3, 1, check=True)
+
+    character_skill(3, 2, 1, check=True)
+    character_skill(3, 3, 1, check=True)
+
+    character_skill(1, 1)
+    card()
+    if turns == 1:
+        return
+
+    # Turn2
+    Current_state.WaitForBattleStart()
+
+    character_skill(2, 1, check=True)
+    character_skill(3, 1, check=True)
+
+    card()
+    if turns == 2:
+        return
+
+    # Turn3
+    Current_state.WaitForBattleStart()
+    character_skill(1, 3)
+
+    card()
+
+
 def Exp_22():
     time.sleep(8)  # 等待战斗开始
 
@@ -141,7 +176,7 @@ def WCaber_normal():
     character_skill(3, 2, 1, check=True)
     character_skill(3, 3, 1, check=True)
 
-    character_skill(1, 1, check=True)
+    character_skill(1, 1, check=False)
     card()
 
     # Turn2
@@ -150,6 +185,7 @@ def WCaber_normal():
 
     # Turn3
     Current_state.WaitForBattleStart()
+    character_skill(1, 3)
     card()
 
 

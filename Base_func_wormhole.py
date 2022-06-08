@@ -86,7 +86,7 @@ def match_template(filename, crop_size=[], err=0.85, show_switch=debug_flag):
         return True, player_spot
     else:
         fuse.alarm()
-        return False, 0
+        return False, (-1, -1)
 
 
 def window_capture():
