@@ -392,9 +392,10 @@ if __name__ == '__main__':
                    "idol22": Battle_templates.idol22,
                    "gl22": Battle_templates.grailive_1,
                    "Q_WCaberLin": Battle_templates.quick_WCaber_lin,
+                   "infp22":Battle_templates.infp22,
                    }
 
-    main('com5', 10, "ALL", "exp")
+    # main('com5', 10, "ALL", "exp")
     # main('com5', 30, "ALL", "golden_egg")
     # main('com5', 10, "ALL", "qp")
     # main('com5', 8, "CBA", "WCBA")
@@ -407,5 +408,6 @@ if __name__ == '__main__':
     # quick_main("Q_WCaberLin", turns=1); sys.exit(0)
     # main('com5', 3, "Caber", "WCaberLin")
     # main('com5', 1, "Caber", "WCaber")
+    main('com5', 2, "Caber", "infp22")
 
     sent_message("脚本完成!", 1)

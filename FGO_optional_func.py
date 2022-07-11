@@ -12,6 +12,7 @@ import Serial_wormhole as Serial
 import time
 import winsound
 
+from Notice import sent_message
 
 # 无限池抽取函数
 def InfinatePool(times=100):
@@ -59,4 +60,5 @@ def MakeCraftEssenceEXCard():
 if __name__ == '__main__':
     # FriendPointSummon()
     InfinatePool(200)
-    winsound.MessageBeep()
+    sent_message("抽取完成!", 1)
+
